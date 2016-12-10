@@ -1,0 +1,37 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from implementarloginService WSDL service -->
+
+  <service name="implementarlogin" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.tallerjava.everis.com.mx"/>
+      <parameter name="wsdlServiceElement" value="implementarloginService"/>
+      <parameter name="schemaQualified" value="http://login.tallerjava.everis.com.mx,http://service.tallerjava.everis.com.mx"/>
+      <parameter name="wsdlServicePort" value="implementarlogin"/>
+      <parameter name="className" value="mx.com.everis.tallerjava.service.ImplementarloginSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="implementarlogin"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="validar" qname="operNS:validar" xmlns:operNS="http://service.tallerjava.everis.com.mx" returnQName="retNS:validarReturn" xmlns:retNS="http://service.tallerjava.everis.com.mx" returnType="rtns:login" xmlns:rtns="http://login.tallerjava.everis.com.mx" soapAction="" >
+        <parameter qname="pns:obj" xmlns:pns="http://service.tallerjava.everis.com.mx" type="tns:login" xmlns:tns="http://login.tallerjava.everis.com.mx"/>
+      </operation>
+      <parameter name="allowedMethods" value="validar"/>
+
+      <typeMapping
+        xmlns:ns="http://login.tallerjava.everis.com.mx"
+        qname="ns:login"
+        type="java:mx.com.everis.tallerjava.login.Login"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
